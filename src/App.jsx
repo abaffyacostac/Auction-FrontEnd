@@ -11,8 +11,8 @@ const App = () => {
   const [errors, setErrors] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
 
-  const url = 'http://localhost:5000/api/products';
- //const url = 'https://backend-dzw1.onrender.com/api/products'
+ //const url = 'http://localhost:5000/api/products';
+ const url = 'https://backend-dzw1.onrender.com/api/products'
 
   useEffect(() => {
     const fetchProducts = async () => {

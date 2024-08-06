@@ -8,10 +8,11 @@ import Product from './Product';
 const App = () => {
   const [products, setProducts] = useState([]);
   const [bidNames, setBidNames] = useState({});
-  const [errors, setErrors] = useState({}); // To track errors
+  const [errors, setErrors] = useState({});
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // const url = 'http://localhost:5000/api/products'
-  const url = 'https://backend-dzw1.onrender.com/api/products'
+  const url = 'http://localhost:5000/api/products';
+ //const url = 'https://backend-dzw1.onrender.com/api/products'
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -25,7 +26,6 @@ const App = () => {
     const name = bidNames[id];
     const product = products.find((product) => product._id === id);
 
-    // Validate name and bid
     if (!name || !name.trim()) {
       setErrors((prev) => ({ ...prev, [id]: 'Name cannot be empty.' }));
       return;
@@ -36,7 +36,7 @@ const App = () => {
     }
 
     try {
-      await axios.post(url+`/${id}/bid`, { bid, name });
+      await axios.post(url + `/${id}/bid`, { bid, name });
       const updatedProducts = await axios.get(url);
       setProducts(updatedProducts.data);
       setBidNames((prev) => ({ ...prev, [id]: '' }));
@@ -50,11 +50,19 @@ const App = () => {
     setBidNames((prev) => ({ ...prev, [id]: value }));
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container">
-      <Header />
+      <Header searchTerm={searchTerm} onSearchChange={handleSearchChange} />
       <div className="grid">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <Product
             key={product._id}
             product={product}

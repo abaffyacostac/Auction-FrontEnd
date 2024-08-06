@@ -4,7 +4,7 @@ const Header = ({ searchTerm, onSearchChange }) => {
   return (
     <header className="header">
       <div className="header-logo">
-        <img src="./src/assets/Eauction.png" alt="E-Auction Logo" />
+        <img src="./src/assets/Eauction.png" alt="" />
       </div>
       <h1 className="header-title">Electronic - Auction</h1>
       <div className="header-search">
